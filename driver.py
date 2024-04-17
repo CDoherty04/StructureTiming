@@ -9,7 +9,8 @@ Purpose: Time several methods from Stacks, Queues, and Lists using various value
 Run Driver.py to begin the program
 """
 
-from tests import run
+from timer import Timer
 
 if __name__ == "__main__":
-    run()
+    timer = Timer()
+    timer.run()
