@@ -12,11 +12,11 @@ class Timer:
         self.linkedqueue = LinkedQueue()
         self.linkedlist = LinkedList()
 
-    def time_function(self, func):
+    def time_function(self, func, *args):
         """Returns the time taken to call a function"""
 
         start = perf_counter_ns()
-        func()
+        func(*args)
         end = perf_counter_ns()
 
         return end-start
@@ -62,7 +62,7 @@ class Timer:
             print(f"Time at {iterations} iterations: {self.time_function(pop_all)} ns")
 
     def time_enqueue(self):
-        """Prints the amount of time to pop every element from a stack at intervals of 1,000"""
+        """Prints the amount of time to enqueue elements at intervals of 1,000"""
 
         iterations = 0
 
@@ -82,6 +82,22 @@ class Timer:
             # Remove all elements
             while not self.linkedqueue.is_empty():
                 self.linkedqueue.dequeue()
+
+    def time_get_entry_0(self):
+        """Prints the amount of time to access the first element from a linked list at intervals of 1,000"""
+
+        iterations = 0
+
+        # Increase the number of iterations by 1000 until it reaches 100,000
+        for _ in range(100):
+            iterations += 1000
+
+            # Add 1000 more elements
+            for i in range(1000):
+                self.linkedlist.insert(0, 0)
+
+            # Print the recorded time to pop all elements, with 0 being the index parameter of get_entry
+            print(f"Time at {iterations} iterations: {self.time_function(self.linkedlist.get_entry, 0)} ns")
 
     def run(self):
         """Fill each data structure with an increasing number of elements and record a time for each.
@@ -110,7 +126,7 @@ class Timer:
                 case "3":
                     self.time_enqueue()
                 case "4":
-                    quit()
+                    self.time_get_entry_0()
                 case "5":
                     quit()
                 case "6":
