@@ -1,4 +1,4 @@
-from time import time
+from time import perf_counter_ns
 from stack import Stack
 from linkedqueue import LinkedQueue
 from linkedlist import LinkedList
@@ -15,12 +15,11 @@ class Timer:
     def time_function(self, func):
         """Returns the time taken to call a function"""
 
-        start = time()
+        start = perf_counter_ns()
         func()
-        end = time()
+        end = perf_counter_ns()
 
-        # Converts seconds to ns
-        return (end-start)*1_000_000_000
+        return end-start
 
     def time_stack_pop(self):
         """Prints the amount of time to pop an element from a stack at intervals of 1,000"""
