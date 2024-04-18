@@ -76,14 +76,14 @@ class Timer:
                 for i in range(iterations):
                     self.linkedqueue.enqueue(i)
 
-            # Print the recorded time to pop all elements
+            # Print the recorded time to enqueue an element
             print(f"Time at {iterations} iterations: {self.time_function(enqueue_thousand)} ns")
 
             # Remove all elements
             while not self.linkedqueue.is_empty():
                 self.linkedqueue.dequeue()
 
-    def time_get_entry_0(self):
+    def time_get_0_entry(self):
         """Prints the amount of time to access the first element from a linked list at intervals of 1,000"""
 
         iterations = 0
@@ -96,8 +96,26 @@ class Timer:
             for i in range(1000):
                 self.linkedlist.insert(0, 0)
 
-            # Print the recorded time to pop all elements, with 0 being the index parameter of get_entry
-            print(f"Time at {iterations} iterations: {self.time_function(self.linkedlist.get_entry, 0)} ns")
+            # Print the recorded time access the first element, with 0 being the index parameter of get_entry
+            elapsed_time = self.time_function(self.linkedlist.get_entry, 0)
+            print(f"Time at {iterations} iterations: {elapsed_time} ns")
+
+    def time_get_last_entry(self):
+        """Prints the amount of time to access the last element from a linked list at intervals of 1,000"""
+
+        iterations = 0
+
+        # Increase the number of iterations by 1000 until it reaches 100,000
+        for _ in range(100):
+            iterations += 1000
+
+            # Add 1000 more elements
+            for i in range(1000):
+                self.linkedlist.insert(0, 0)
+
+            # Print the recorded time to access the last element
+            elapsed_time = self.time_function(self.linkedlist.get_entry, self.linkedlist.length()-1)
+            print(f"Time at {iterations} iterations: {elapsed_time} ns")
 
     def run(self):
         """Fill each data structure with an increasing number of elements and record a time for each.
@@ -126,9 +144,9 @@ class Timer:
                 case "3":
                     self.time_enqueue()
                 case "4":
-                    self.time_get_entry_0()
+                    self.time_get_0_entry()
                 case "5":
-                    quit()
+                    self.time_get_last_entry()
                 case "6":
                     quit()
                 case "7":
