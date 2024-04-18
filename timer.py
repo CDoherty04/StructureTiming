@@ -2,6 +2,7 @@ from time import perf_counter_ns
 from stack import Stack
 from linkedqueue import LinkedQueue
 from linkedlist import LinkedList
+from maxheap import MaxHeap
 
 
 class Timer:
@@ -11,6 +12,7 @@ class Timer:
         self.stack = Stack()
         self.linkedqueue = LinkedQueue()
         self.linkedlist = LinkedList()
+        self.maxheap = MaxHeap()
 
     def time_function(self, func, *args):
         """Returns the time taken to call a function"""
@@ -140,6 +142,30 @@ class Timer:
             elapsed_time = self.time_function(access_all)
             print(f"Time at {iterations} iterations: {elapsed_time} ns")
 
+    def time_add_to_maxheap(self):
+        """Prints the amount of time to add intervals of 1,000 elements to a maxheap"""
+
+        iterations = 0
+
+        # Increase the number of iterations by 1000 until it reaches 100,000
+        for _ in range(100):
+            iterations += 1000
+
+            # Create a function to pass into the time_function method
+            def add_iterations():
+                # Record the time to add 1000 more elements
+                for _ in range(iterations):
+                    self.maxheap.add(0)
+
+            # Print the recorded time to access the last element
+            elapsed_time = self.time_function(add_iterations)
+            print(f"Time at {iterations} iterations: {elapsed_time} ns")
+
+            # Remove all iterations for the next timer
+            for _ in range(iterations):
+                self.maxheap.remove()
+
+
     def run(self):
         """Fill each data structure with an increasing number of elements and record a time for each.
         For each method, start with a data size of 1000 then increase by 1000, recording another time, and repeat until
@@ -173,7 +199,7 @@ class Timer:
                 case "6":
                     self.time_get_all_entries()
                 case "7":
-                    quit()
+                    self.time_add_to_maxheap()
                 case "8":
                     quit()
                 case _:
