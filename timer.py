@@ -38,6 +38,9 @@ class Timer:
             # Print the recorded time to pop a single element
             print(f"Time at {iterations} iterations: {self.time_function(self.stack.pop)} ns")
 
+            # Replace the popped element
+            self.stack.push(1000)
+
     def time_pop_all(self):
         """Prints the amount of time to pop every element from a stack at intervals of 1,000"""
 
@@ -58,6 +61,28 @@ class Timer:
 
             # Print the recorded time to pop all elements
             print(f"Time at {iterations} iterations: {self.time_function(pop_all)} ns")
+
+    def time_enqueue(self):
+        """Prints the amount of time to pop every element from a stack at intervals of 1,000"""
+
+        iterations = 0
+
+        # Increase the number of iterations by 1000 until it reaches 100,000
+        for _ in range(100):
+            iterations += 1000
+
+            # Create a function to pass into the time_function method
+            def enqueue_thousand():
+                # Add 1000 elements each time and time it
+                for i in range(iterations):
+                    self.linkedqueue.enqueue(i)
+
+            # Print the recorded time to pop all elements
+            print(f"Time at {iterations} iterations: {self.time_function(enqueue_thousand)} ns")
+
+            # Remove all elements
+            while not self.linkedqueue.is_empty():
+                self.linkedqueue.dequeue()
 
     def run(self):
         """Fill each data structure with an increasing number of elements and record a time for each.
@@ -84,7 +109,7 @@ class Timer:
                 case "2":
                     self.time_pop_all()
                 case "3":
-                    quit()
+                    self.time_enqueue()
                 case "4":
                     quit()
                 case "5":
