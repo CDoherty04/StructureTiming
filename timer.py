@@ -117,6 +117,29 @@ class Timer:
             elapsed_time = self.time_function(self.linkedlist.get_entry, self.linkedlist.length()-1)
             print(f"Time at {iterations} iterations: {elapsed_time} ns")
 
+    def time_get_all_entries(self):
+        """Prints the amount of time to access the all elements from a linked list at intervals of 1,000"""
+
+        # WARNING: THIS TAKES FOREVER
+        iterations = 0
+
+        # Increase the number of iterations by 1000 until it reaches 100,000
+        for _ in range(100):
+            iterations += 1000
+
+            # Add 1000 more elements
+            for _ in range(1000):
+                self.linkedlist.insert(0, 0)
+
+            # Create a function to pass into the time_function method
+            def access_all():
+                for i in range(iterations):
+                    self.linkedlist.get_entry(i)
+
+            # Print the recorded time to access the last element
+            elapsed_time = self.time_function(access_all)
+            print(f"Time at {iterations} iterations: {elapsed_time} ns")
+
     def run(self):
         """Fill each data structure with an increasing number of elements and record a time for each.
         For each method, start with a data size of 1000 then increase by 1000, recording another time, and repeat until
@@ -148,7 +171,7 @@ class Timer:
                 case "5":
                     self.time_get_last_entry()
                 case "6":
-                    quit()
+                    self.time_get_all_entries()
                 case "7":
                     quit()
                 case "8":
