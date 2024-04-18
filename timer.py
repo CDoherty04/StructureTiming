@@ -1,4 +1,4 @@
-from time import process_time_ns
+from time import time
 from stack import Stack
 from linkedqueue import LinkedQueue
 from linkedlist import LinkedList
@@ -15,11 +15,12 @@ class Timer:
     def time_function(self, func):
         """Returns the time taken to call a function"""
 
-        start = process_time_ns()
+        start = time()
         func()
-        end = process_time_ns()
+        end = time()
 
-        return end-start
+        # Converts seconds to ns
+        return (end-start)*1_000_000_000
 
     def time_stack_pop(self):
         """Prints the amount of time to pop an element from a stack at intervals of 1,000"""
@@ -36,6 +37,27 @@ class Timer:
 
             # Print the recorded time to pop a single element
             print(f"Time at {iterations} iterations: {self.time_function(self.stack.pop)} ns")
+
+    def time_pop_all(self):
+        """Prints the amount of time to pop every element from a stack at intervals of 1,000"""
+
+        iterations = 0
+
+        # Increase the number of iterations by 1000 until it reaches 100,000
+        for _ in range(100):
+            iterations += 1000
+
+            # Add 1000 more elements each time
+            for i in range(iterations):
+                self.stack.push(i)
+
+            # Create a function to pass into the time_function method
+            def pop_all():
+                while not self.stack.is_empty():
+                    self.stack.pop()
+
+            # Print the recorded time to pop all elements
+            print(f"Time at {iterations} iterations: {self.time_function(pop_all)} ns")
 
     def run(self):
         """Fill each data structure with an increasing number of elements and record a time for each.
@@ -60,7 +82,7 @@ class Timer:
                 case "1":
                     self.time_stack_pop()
                 case "2":
-                    quit()
+                    self.time_pop_all()
                 case "3":
                     quit()
                 case "4":
