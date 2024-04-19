@@ -28,7 +28,8 @@ class Timer:
     def time_stack_pop(self):
         """Prints the amount of time to pop an element from a stack at intervals of 1,000"""
 
-        ws = Worksheet("Time to Pop from Stack")
+        # Create Worksheet object to graph later
+        ws = Worksheet("Time to Pop one Item from Stack")
         iterations = 0
 
         # Increase the number of iterations by 1000 until it reaches 100,000
@@ -40,10 +41,11 @@ class Timer:
                 self.stack.push(i)
 
             # Print the recorded time to pop a single element
-            # print(f"Time at {iterations} iterations: {self.time_function(self.stack.pop)} ns")
+            elapsed_time = time_function(self.stack.pop)
+            print(f"Time at {iterations} iterations: {elapsed_time} ns")
 
             # Plot the recorded time to pop a single element in the chart
-            ws.plot(iterations, time_function(self.stack.pop))
+            ws.plot(iterations, elapsed_time)
 
             # Replace the popped element
             self.stack.push(1000)
@@ -53,6 +55,8 @@ class Timer:
     def time_pop_all(self):
         """Prints the amount of time to pop every element from a stack at intervals of 1,000"""
 
+        # Create Worksheet object to graph later
+        ws = Worksheet("Time to Pop all Items from Stack")
         iterations = 0
 
         # Increase the number of iterations by 1000 until it reaches 100,000
@@ -69,11 +73,19 @@ class Timer:
                     self.stack.pop()
 
             # Print the recorded time to pop all elements
-            print(f"Time at {iterations} iterations: {self.time_function(pop_all)} ns")
+            elapsed_time = time_function(pop_all)
+            print(f"Time at {iterations} iterations: {elapsed_time} ns")
+
+            # Plot the recorded time to pop a single element in the chart
+            ws.plot(iterations, elapsed_time)
+
+        ws.create_graph()
 
     def time_enqueue(self):
         """Prints the amount of time to enqueue elements at intervals of 1,000"""
 
+        # Create Worksheet object to graph later
+        ws = Worksheet("Time to Enqueue")
         iterations = 0
 
         # Increase the number of iterations by 1000 until it reaches 100,000
@@ -87,15 +99,23 @@ class Timer:
                     self.linkedqueue.enqueue(i)
 
             # Print the recorded time to enqueue an element
-            print(f"Time at {iterations} iterations: {self.time_function(enqueue_thousand)} ns")
+            elapsed_time = time_function(enqueue_thousand)
+            print(f"Time at {iterations} iterations: {elapsed_time} ns")
+
+            # Plot the recorded time to pop a single element in the chart
+            ws.plot(iterations, elapsed_time)
 
             # Remove all elements
             while not self.linkedqueue.is_empty():
                 self.linkedqueue.dequeue()
 
+        ws.create_graph()
+
     def time_get_0_entry(self):
         """Prints the amount of time to access the first element from a linked list at intervals of 1,000"""
 
+        # Create Worksheet object to graph later
+        ws = Worksheet("Time to Get First Entry")
         iterations = 0
 
         # Increase the number of iterations by 1000 until it reaches 100,000
@@ -107,12 +127,19 @@ class Timer:
                 self.linkedlist.insert(0, 0)
 
             # Print the recorded time access the first element, with 0 being the index parameter of get_entry
-            elapsed_time = self.time_function(self.linkedlist.get_entry, 0)
+            elapsed_time = time_function(self.linkedlist.get_entry, 0)
             print(f"Time at {iterations} iterations: {elapsed_time} ns")
+
+            # Plot the recorded time to pop a single element in the chart
+            ws.plot(iterations, elapsed_time)
+
+        ws.create_graph()
 
     def time_get_last_entry(self):
         """Prints the amount of time to access the last element from a linked list at intervals of 1,000"""
 
+        # Create Worksheet object to graph later
+        ws = Worksheet("Time to Get Last Entry")
         iterations = 0
 
         # Increase the number of iterations by 1000 until it reaches 100,000
@@ -124,13 +151,19 @@ class Timer:
                 self.linkedlist.insert(0, 0)
 
             # Print the recorded time to access the last element
-            elapsed_time = self.time_function(self.linkedlist.get_entry, self.linkedlist.length()-1)
+            elapsed_time = time_function(self.linkedlist.get_entry, self.linkedlist.length()-1)
             print(f"Time at {iterations} iterations: {elapsed_time} ns")
+
+            # Plot the recorded time to pop a single element in the chart
+            ws.plot(iterations, elapsed_time)
+
+        ws.create_graph()
 
     def time_get_all_entries(self):
         """Prints the amount of time to access the all elements from a linked list at intervals of 1,000"""
 
-        # WARNING: THIS TAKES FOREVER
+        # Create Worksheet object to graph later
+        ws = Worksheet("Time to Get All Entries")
         iterations = 0
 
         # Increase the number of iterations by 1000 until it reaches 100,000
@@ -147,12 +180,19 @@ class Timer:
                     self.linkedlist.get_entry(i)
 
             # Print the recorded time to access the last element
-            elapsed_time = self.time_function(access_all)
+            elapsed_time = time_function(access_all)
             print(f"Time at {iterations} iterations: {elapsed_time} ns")
+
+            # Plot the recorded time to pop a single element in the chart
+            ws.plot(iterations, elapsed_time)
+
+        ws.create_graph()
 
     def time_add_to_maxheap(self):
         """Prints the amount of time to add intervals of 1,000 elements to a maxheap"""
 
+        # Create Worksheet object to graph later
+        ws = Worksheet("Time to Add to Max Heap")
         iterations = 0
 
         # Increase the number of iterations by 1000 until it reaches 100,000
@@ -166,12 +206,17 @@ class Timer:
                     self.maxheap.add(0)
 
             # Print the recorded time to access the last element
-            elapsed_time = self.time_function(add_iterations)
+            elapsed_time = time_function(add_iterations)
             print(f"Time at {iterations} iterations: {elapsed_time} ns")
+
+            # Plot the recorded time to pop a single element in the chart
+            ws.plot(iterations, elapsed_time)
 
             # Remove all iterations for the next timer
             for _ in range(iterations):
                 self.maxheap.remove()
+
+        ws.create_graph()
 
     def run(self):
         """Fill each data structure with an increasing number of elements and record a time for each.
