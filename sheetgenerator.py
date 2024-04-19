@@ -42,17 +42,4 @@ class Worksheet:
         self.sheet.add_chart(chart, "D2")
 
         # Save the file
-        self.wb.save(f"{self.file_name}.xlsx")
-
-
-if __name__ == "__main__":
-
-    # Create test worksheet
-    test_ws = Worksheet("Test")
-
-    # Add various points
-    for i in range(100):
-        test_ws.plot(i, i ** 2)
-
-    # Save data and graph it
-    test_ws.create_graph()
+        self.wb.save(f"graphs/{self.file_name}.xlsx")

@@ -1,8 +1,19 @@
-from time import perf_counter_ns
 from stack import Stack
+from time import perf_counter_ns
 from linkedqueue import LinkedQueue
 from linkedlist import LinkedList
 from maxheap import MaxHeap
+from sheetgenerator import Worksheet
+
+
+def time_function(func, *args):
+    """Returns the time taken to call a function"""
+
+    start = perf_counter_ns()
+    func(*args)
+    end = perf_counter_ns()
+
+    return end-start
 
 
 class Timer:
@@ -14,18 +25,10 @@ class Timer:
         self.linkedlist = LinkedList()
         self.maxheap = MaxHeap()
 
-    def time_function(self, func, *args):
-        """Returns the time taken to call a function"""
-
-        start = perf_counter_ns()
-        func(*args)
-        end = perf_counter_ns()
-
-        return end-start
-
     def time_stack_pop(self):
         """Prints the amount of time to pop an element from a stack at intervals of 1,000"""
 
+        ws = Worksheet("Time to Pop from Stack")
         iterations = 0
 
         # Increase the number of iterations by 1000 until it reaches 100,000
@@ -37,10 +40,15 @@ class Timer:
                 self.stack.push(i)
 
             # Print the recorded time to pop a single element
-            print(f"Time at {iterations} iterations: {self.time_function(self.stack.pop)} ns")
+            # print(f"Time at {iterations} iterations: {self.time_function(self.stack.pop)} ns")
+
+            # Plot the recorded time to pop a single element in the chart
+            ws.plot(iterations, time_function(self.stack.pop))
 
             # Replace the popped element
             self.stack.push(1000)
+
+        ws.create_graph()
 
     def time_pop_all(self):
         """Prints the amount of time to pop every element from a stack at intervals of 1,000"""
@@ -165,7 +173,6 @@ class Timer:
             for _ in range(iterations):
                 self.maxheap.remove()
 
-
     def run(self):
         """Fill each data structure with an increasing number of elements and record a time for each.
         For each method, start with a data size of 1000 then increase by 1000, recording another time, and repeat until
@@ -183,7 +190,7 @@ class Timer:
                   f"7) Adding a value to a Max Heap (our list-based implementation\n"
                   f"8) Quit\n")
 
-            choice = input("Which operation would you like to time?\n")
+            choice = input("Quit to make graphs accessible. Which operation would you like to time?\n")
 
             match choice:
                 case "1":
